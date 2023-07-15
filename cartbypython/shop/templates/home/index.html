@@ -1,0 +1,25 @@
+{% load static %}
+
+{% include  'includes/header.html' %}
+        <section>
+            <h1>Nos Produits</h1>
+            <div class="home-content">
+              {% for product  in products %}
+                <div class="home-cart">
+                    <div class="home-product-image">
+                        <img src="/shop/static/images{{ product.image.url }}" alt="{{ product.title }}">
+                    </div>
+                    <div class="home-product-details">
+                        <p> {{ product.title }} </p>
+                        <p class="home-product-details-price">{{ product.price | floatformat:2 }} €</p>
+                        <div class="home-product-actions">
+                            <a href="/product/{{ product.id }}" class="home-product-actions-details">Détails</a>
+                            <a href="/panier-produit/{{ product.id }}" class="home-product-actions-addCart">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+              {% endfor %}
+
+            </div>
+        </section>
+ {% include  'includes/footer.html' %}

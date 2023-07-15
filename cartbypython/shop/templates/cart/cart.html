@@ -1,0 +1,61 @@
+{% load static %}
+
+{% include  'includes/header.html' %}
+        <section>
+            <h1>Panier</h1>
+            <div class="cart-content">
+                {% if not productCart %}
+                <h1> Le panier est vide</h1>
+                {% else %}
+                    <div class="cart-items">
+                    {% for product  in productCart %}
+                            <div class="cart-product">
+                                <div class="cart-product-image">
+                                    <img src="/shop/static/images{{ product.image }}" alt="{{ product.title }}">
+                                </div>
+                                <div class="cart-product-details">
+                                    <div class="cart-product-details-description">
+                                        <p> {{ product.title }} <br> <span class="cart-product-details-description-price"> {{ product.price | floatformat:2 }} €</span> </p>
+                                    </div>
+                                    <div class="cart-product-details-quantity">
+                                        <form action="/panier-produit-modifier-quantite" method="post">
+                                            {% csrf_token %}
+                                            <label for="quantity">Qts:</label>
+                                            <input type="number" name="quantity" id="quantity" min="1" value="{{ product.quantity }}">
+                                            <input type="hidden" name="productIdentifiant" value="{{ product.id }}">
+                                            <input type="submit" value="Modifier">
+                                        </form>
+                                        <div class="cart-product-delete">
+                                            <a href="/panier-supprimer-produit/{{ product.id }}">supprimer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %} 
+                    <div class="cart-recapitulation">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Sous-total :</td>
+                                    <td> {{ soustotalPrice | floatformat:2 }} €</td>
+                                </tr>
+                                <tr>
+                                    <td>Livraison :</td>
+                                    <td>10 €</td>
+                                </tr>
+                                <tr>
+                                    <td>Total :</td>
+                                    <td> {{ total_price | floatformat:2 }} €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form action="">
+                            <input type="hidden" name="">
+                            <button type="submit">Passer la commande</button>
+                        </form>
+                    </div>
+
+                {% endif %}
+            </div>
+        </section>
+{% include  'includes/footer.html' %}
